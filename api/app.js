@@ -1,6 +1,7 @@
 'use strict';
 
 // load modules
+const cors = require('cors');
 const express = require('express');
 const {check, validationResult} = require("express-validator");
 const router = express.Router();
@@ -17,6 +18,9 @@ const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'tr
 
 // create the Express app
 const app = express();
+
+// Enable CORS Requests
+app.use(cors());
 
 app.use(express.json());
 app.use("/api", router);

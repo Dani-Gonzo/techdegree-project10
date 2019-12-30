@@ -1,4 +1,4 @@
-# techdegree-project9
+# techdegree-project10
 
 ## REST API
 An API built for users to administer a school database containing info about courses. Users can retrieve a list of courses, as well as add, update and delete courses.
@@ -35,6 +35,7 @@ To test the Express server, browse to the URL [http://localhost:5000/](http://lo
 - Morgan v1.9.0
 - Sequelize v5.21.2
 - SQLite3 v4.0.2
+- react and react-dom v16.12.0
 
 ## Features
 - Validates that required fields are filled when creating a new user or course.
