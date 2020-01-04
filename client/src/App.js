@@ -1,35 +1,21 @@
 import React, {Component} from 'react';
-import './App.css';
+import Courses from './components/Courses.js';
+import CourseDetail from './components/CourseDetail.js';
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
+// import './App.css';
 
 class App extends Component {
-  state = {
-    courseTitles: []
-  }
-
-  componentDidMount() {
-    fetch('//localhost:5000/api/courses')
-      .then(res => res.json())
-      .then(resData => {
-        this.setState({
-          courseTitles: resData.map(course => course.title)
-        })
-      })
-  }
-
+  
   render() {
-    const titles = this.state.courseTitles.map(title => {
-      return (
-        <li>{title}</li>
-      );
-    });
-
     return (
-      <div>
-        <ul>
-          {titles}
-        </ul>
-      </div>
-    );
+      <BrowserRouter>
+        <div id="root">
+            {/* TODO: Do redirect from root path to /courses */}
+            <Route exact path="/courses" component={Courses} />
+            <Route path="/courses/:id" component={CourseDetail} />
+        </div>
+      </BrowserRouter>
+    )
   }
 }
 
