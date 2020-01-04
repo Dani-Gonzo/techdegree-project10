@@ -25,11 +25,7 @@ export default class CourseDetail extends Component {
             .then(() => window.alert("Hey Listen"));
     }
 
-    // TODO: Build out after making update course component
-    courseUpdate() {
-        fetch(`//localhost:5000/api/courses/${this.props.match.params.id}`, {method: 'PUT'})
-            .then(() => window.alert("Hey Listen"));
-    }
+    
 
     render() {
         const courseData = this.state.courseData;
@@ -48,8 +44,12 @@ export default class CourseDetail extends Component {
             <div>
                 <div className="actions--bar">
                     <div className="bounds">
-                        <div className="grid-100"><span><a className="button" onClick={this.courseUpdate} href="update-course.html">Update Course</a><a className="button" onClick={this.courseDelete} href="#">Delete Course</a></span><a
-                        className="button button-secondary" href="/courses">Return to List</a></div>
+                        <div className="grid-100">
+                            <span>
+                                <a className="button" href={`/courses/update/${courseData.id}`}>Update Course</a>
+                                <a className="button" onClick={this.courseDelete} href="#">Delete Course</a>
+                            </span>
+                            <a className="button button-secondary" href="/courses">Return to List</a></div>
                     </div>
                 </div>
                 <div className="bounds course--detail">
