@@ -33,12 +33,16 @@ export default class CourseDetail extends Component {
 
     render() {
         const courseData = this.state.courseData;
-
-        const materials = courseData.materialsNeeded.split("\n").map(material => {
-            return (
-                <li>{material.replace("*", "")}</li>
-            )
-        });
+        let materials = null;
+        
+        if (courseData.materialsNeeded != null) {
+            materials = courseData.materialsNeeded.split("\n").map(material => {
+                return (
+                    <li>{material.replace("*", "")}</li>
+                )
+            });
+        }
+        
 
         return (
             <div>
