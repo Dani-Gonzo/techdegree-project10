@@ -99,16 +99,16 @@ router.get("/users", authenticateUser, (req, res) => {
 
 // Create user
 router.post("/users", [
-  check("firstName").exists().withMessage("Please provide a value for 'firstName'"),
-  check("lastName").exists().withMessage("Please provide a value for 'lastName'"),
+  check("firstName").exists({checkFalsy: true}).withMessage("Please provide a value for 'firstName'"),
+  check("lastName").exists({checkFalsy: true}).withMessage("Please provide a value for 'lastName'"),
   // TODO: Figure out how to validate email address is unique in the database (query database, check it against email entry)
-  check("emailAddress").exists().withMessage("Please provide a value for 'emailAddress'").isEmail().withMessage("Please provide a valid email address").custom(async (value) => {
+  check("emailAddress").exists({checkFalsy: true}).withMessage("Please provide a value for 'emailAddress'").isEmail().withMessage("Please provide a valid email address").custom(async (value) => {
     const userEmail = await User.findOne({where: {emailAddress: value}});
     if (userEmail !== null) {
       throw new Error("Email address is already in use");
     }
   }),
-  check("password").exists().withMessage("Please provide a value for 'password'")
+  check("password").exists({checkFalsy: true}).withMessage("Please provide a value for 'password'")
 ], async (req, res, next) => {
   
   // Get validation result from Request object
@@ -159,8 +159,8 @@ router.get("/courses/:id", async (req, res) => {
 
 // Create course
 router.post("/courses", [
-  check("title").exists().withMessage("Please provide a value for 'title'"),
-  check("description").exists().withMessage("Please provide a value for 'description'")
+  check("title").exists({checkFalsy: true}).withMessage("Please provide a value for 'title'"),
+  check("description").exists({checkFalsy: true}).withMessage("Please provide a value for 'description'")
 ], authenticateUser, async (req, res, next) => {
   // Get validation result from Request object
   const errors = validationResult(req);
@@ -189,8 +189,8 @@ router.post("/courses", [
 
 // Update course
 router.put("/courses/:id", [
-  check("title").exists().withMessage("Please provide a value for 'title'"),
-  check("description").exists().withMessage("Please provide a value for 'description'")
+  check("title").exists({checkFalsy: true}).withMessage("Please provide a value for 'title'"),
+  check("description").exists({checkFalsy: true}).withMessage("Please provide a value for 'description'")
 ], authenticateUser, async (req, res, next) => {
   // Get validation result from Request object
   const errors = validationResult(req);

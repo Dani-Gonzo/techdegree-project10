@@ -30,12 +30,10 @@ export default class UpdateCourse extends Component {
         })
     }
 
-    // Test authorization access after creating UserSignIn + UserSignUp
-    // Only have it on title right now. Need to add to other input fields
     courseUpdate = e => {
         e.preventDefault();
         fetch(`//localhost:5000/api/courses/${this.props.match.params.id}`, {
-            method: 'PUT', body: JSON.stringify(this.state)})
+            method: 'PUT', body: JSON.stringify(this.state), headers: new Headers({"Content-Type": "application/json", "Authorization": "Basic am9lQHNtaXRoLmNvbTpqb2VwYXNzd29yZA=="})})
             .then(() => this.props.history.push(`/courses/detail/${this.state.id}`))
             .then(() => window.alert("Course updated!"))
     }
@@ -69,7 +67,7 @@ export default class UpdateCourse extends Component {
                                 </div>
                                 <div className="course--description">
                                     <div>
-                                        <textarea id="description" name="description" class="" placeholder="Course description" defaultValue={stateData.description}>
+                                        <textarea id="description" name="description" class="" placeholder="Course description" onChange={this.changeHandler} defaultValue={stateData.description}>
                                         </textarea>
                                     </div>
                                 </div>
@@ -81,13 +79,13 @@ export default class UpdateCourse extends Component {
                                     <li className="course--stats--list--item">
                                         <h4>Estimated Time</h4>
                                         <div>
-                                            <input id="estimatedTime" name="estimatedTime" type="text" class="course--time--input" placeholder="Hours" defaultValue={stateData.estimatedTime}></input>
+                                            <input id="estimatedTime" name="estimatedTime" type="text" class="course--time--input" placeholder="Hours" onChange={this.changeHandler} defaultValue={stateData.estimatedTime}></input>
                                         </div>
                                     </li>
                                     <li className="course--stats--list--item">
                                         <h4>Materials Needed</h4>
                                         <div>
-                                            <textarea id="materialsNeeded" name="materialsNeeded" class="" placeholder="List materials..." defaultValue={stateData.materialsNeeded}></textarea>
+                                            <textarea id="materialsNeeded" name="materialsNeeded" class="" placeholder="List materials..." onChange={this.changeHandler} defaultValue={stateData.materialsNeeded}></textarea>
                                         </div>
                                     </li>
                                 </ul>

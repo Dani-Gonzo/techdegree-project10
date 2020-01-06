@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Courses from './components/Courses.js';
 import CourseDetail from './components/CourseDetail.js';
+import CreateCourse from './components/CreateCourse.js';
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 import UpdateCourse from './components/UpdateCourse.js';
 // import './App.css';
@@ -15,6 +16,7 @@ class App extends Component {
             <Route exact path="/courses" component={Courses} />
             <Route path="/courses/detail/:id" component={CourseDetail} />
             <Route path="/courses/update/:id" component={UpdateCourse} />
+            <Route path="/courses/create" component={CreateCourse} />
         </div>
       </BrowserRouter>
     )
