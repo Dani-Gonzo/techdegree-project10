@@ -21,7 +21,7 @@ export default class CreateCourse extends Component {
             method: 'POST', body: JSON.stringify(this.state), headers: new Headers({"Content-Type": "application/json", "Authorization": "Basic am9lQHNtaXRoLmNvbTpqb2VwYXNzd29yZA=="})})
             .then(async res => {
                 if (res.ok == true) {
-                    this.props.history.push("/courses/");
+                    this.props.history.push("/");
                     window.alert("Course created!");
                 } else {
                     const errorData = await res.json();
@@ -38,7 +38,7 @@ export default class CreateCourse extends Component {
 
     cancelButton = e => {
         e.preventDefault();
-        let path = "/courses";
+        let path = "/";
         this.props.history.push(path);
     }
 

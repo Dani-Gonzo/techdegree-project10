@@ -46,6 +46,15 @@ export class Provider extends Component {
             return null;
         }
     }
+
+    signOut = () => {
+        this.setState(() => {
+            return {
+                authenticatedUser: null
+            };
+        });
+        Cookies.remove("authenticatedUser");
+    }
 }
 
 export const Consumer = UserContext.Consumer;

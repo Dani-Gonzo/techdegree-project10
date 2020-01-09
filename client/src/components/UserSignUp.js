@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 
 export default class UserSignUp extends Component {
     state = {
@@ -25,7 +26,7 @@ export default class UserSignUp extends Component {
         })
         .then(async res => {
             if (res.ok == true) {
-                this.props.history.push("/courses");
+                this.props.history.push("/");
                 window.alert("User account created!");
             } else {
                 const errorData = await res.json();
@@ -42,7 +43,7 @@ export default class UserSignUp extends Component {
 
     cancelButton = e => {
         e.preventDefault();
-        let path = "/courses";
+        let path = "/";
         this.props.history.push(path);
     }
 
@@ -100,7 +101,7 @@ export default class UserSignUp extends Component {
                         </form>
                     </div>
                     <p>&nbsp;</p>
-                    <p>Already have a user account? <a href="sign-in.html">Click here</a> to sign in!</p> {/* TODO: Link to user sign in route */}
+                    <p>Already have a user account? <Link to="/signin">Click here</Link> to sign in!</p>
                 </div>
             </div>
         )

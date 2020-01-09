@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Consumer} from './Context'; 
-
+import { Link } from 'react-router-dom';
 
 export default class UserSignIn extends Component {
 
@@ -18,7 +18,7 @@ export default class UserSignIn extends Component {
 
     cancelButton = e => {
         e.preventDefault();
-        let path = "/courses";
+        let path = "/";
         this.props.history.push(path);
     }
 
@@ -35,7 +35,7 @@ export default class UserSignIn extends Component {
                                     return {errors: ["Sign-in was unsuccessful"]};
                                 });
                             } else {
-                                this.props.history.push("/courses");
+                                this.props.history.push("/");
                             }
                         })
                         .catch(err => {
@@ -62,7 +62,7 @@ export default class UserSignIn extends Component {
                                     </form>
                                 </div>
                                 <p>&nbsp;</p>
-                                <p>Don't have a user account? <a href="/user/signup">Click here</a> to sign up!</p>
+                                <p>Don't have a user account? <Link to="/signup">Click here</Link> to sign up!</p>
                             </div>
                         </div>
                     )

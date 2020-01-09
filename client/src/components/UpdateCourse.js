@@ -34,7 +34,7 @@ export default class UpdateCourse extends Component {
         e.preventDefault();
         fetch(`//localhost:5000/api/courses/${this.props.match.params.id}`, {
             method: 'PUT', body: JSON.stringify(this.state), headers: new Headers({"Content-Type": "application/json", "Authorization": "Basic am9lQHNtaXRoLmNvbTpqb2VwYXNzd29yZA=="})})
-            .then(() => this.props.history.push(`/courses/detail/${this.state.id}`))
+            .then(() => this.props.history.push(`/courses/${this.state.id}`))
             .then(() => window.alert("Course updated!"))
     }
 
@@ -46,7 +46,7 @@ export default class UpdateCourse extends Component {
 
     cancelButton = e => {
         e.preventDefault();
-        let path = `/courses/detail/${this.state.id}`;
+        let path = `/courses/${this.state.id}`;
         this.props.history.push(path);
     }
 

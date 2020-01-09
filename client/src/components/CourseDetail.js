@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 
 export default class CourseDetail extends Component {
     state = {
@@ -45,10 +46,10 @@ export default class CourseDetail extends Component {
                     <div className="bounds">
                         <div className="grid-100">
                             <span>
-                                <a className="button" href={`/courses/update/${courseData.id}`}>Update Course</a>
-                                <a className="button" onClick={this.courseDelete} href="#">Delete Course</a>
+                                <Link className="button" to={`/courses/${courseData.id}/update`}>Update Course</Link>
+                                <Link className="button" onClick={this.courseDelete} to="#">Delete Course</Link>
                             </span>
-                            <a className="button button-secondary" href="/courses">Return to List</a></div>
+                            <Link className="button button-secondary" to="/">Return to List</Link></div>
                     </div>
                 </div>
                 <div className="bounds course--detail">

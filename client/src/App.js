@@ -6,6 +6,8 @@ import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom';
 import UpdateCourse from './components/UpdateCourse.js';
 import UserSignUp from './components/UserSignUp.js';
 import UserSignIn from './components/UserSignIn.js';
+import UserSignOut from './components/UserSignOut.js';
+import Header from './components/Header.js';
 // import './App.css';
 
 class App extends Component {
@@ -14,13 +16,15 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div id="root">
-            {/* TODO: Do redirect from root path to /courses */}
-            <Route exact path="/courses" component={Courses} />
-            <Route path="/courses/detail/:id" component={CourseDetail} />
-            <Route path="/courses/update/:id" component={UpdateCourse} />
+            <Header />
+            
+            <Route exact path="/" component={Courses} />
+            <Route path="/courses/:id" component={CourseDetail} />
+            <Route path="/courses/:id/update" component={UpdateCourse} />
             <Route path="/courses/create" component={CreateCourse} />
-            <Route path="/user/signup" component={UserSignUp} />
-            <Route path="/user/signin" component={UserSignIn} />
+            <Route path="/signup" component={UserSignUp} />
+            <Route path="/signin" component={UserSignIn} />
+            <Route path="signout" component={UserSignOut} />
         </div>
       </BrowserRouter>
     )
