@@ -28,14 +28,17 @@ export default class UserSignIn extends Component {
             { context => {
                 const handleSubmit = e => {
                     e.preventDefault();
+                    const {from} = this.props.location.state || {from: {pathname: '/'}};
+
                     context.actions.signIn(this.state.emailAddress, this.state.password)
                         .then(user => {
                             if (user === null) {
                                 this.setState(() => {
                                     return {errors: ["Sign-in was unsuccessful"]};
                                 });
-                            } else {
-                                this.props.history.push("/");
+                            } 
+                            else {
+                                this.props.history.push(from);
                             }
                         })
                         .catch(err => {

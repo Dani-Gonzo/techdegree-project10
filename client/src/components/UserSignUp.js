@@ -25,7 +25,7 @@ export default class UserSignUp extends Component {
             method: 'POST', body: JSON.stringify(this.state), headers: new Headers({"Content-Type": "application/json"})
         })
         .then(async res => {
-            if (res.ok == true) {
+            if (res.ok === true) {
                 this.props.history.push("/");
                 window.alert("User account created!");
             } else {

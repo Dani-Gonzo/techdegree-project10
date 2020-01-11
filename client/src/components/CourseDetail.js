@@ -20,17 +20,25 @@ export default class CourseDetail extends Component {
         })
     }
 
-    // TODO: Test AFTER making create course work
-    courseDelete() {
-        fetch(`//localhost:5000/api/courses/${this.props.match.params.id}`, {method: 'DELETE'})
-            .then(() => window.alert("Hey Listen"));
+    courseDelete(id) {
+        const {context} = this.props;
+        fetch(`//localhost:5000/api/courses/${id}`, {
+            method: 'DELETE', 
+            headers: new Headers({
+                "Authorization": "Basic " + btoa(context.authenticatedUser.emailAddress + ":" + context.authenticatedUser.password)
+            })
+        })
+            .then(() => {
+                this.props.history.push('/');
+                window.alert("Delete successful!");
+            })
     }
 
-    
-
     render() {
+        const {context} = this.props;
         const courseData = this.state.courseData;
         let materials = null;
+        let authUserDisplay;
         
         if (courseData.materialsNeeded != null) {
             materials = courseData.materialsNeeded.split("\n").map(material => {
@@ -39,17 +47,24 @@ export default class CourseDetail extends Component {
                 )
             });
         }
+
+        if (context.authenticatedUser != null && context.authenticatedUser.id === courseData.user.id) {
+            authUserDisplay = <span>
+                                <Link className="button" to={`/courses/${courseData.id}/update`}>Update Course</Link>
+                                <Link className="button" onClick={() => this.courseDelete(this.props.match.params.id)} to="#">Delete Course</Link>
+                            </span>
+        } else {
+            authUserDisplay = null;
+        }
         
         return (
             <div>
                 <div className="actions--bar">
                     <div className="bounds">
                         <div className="grid-100">
-                            <span>
-                                <Link className="button" to={`/courses/${courseData.id}/update`}>Update Course</Link>
-                                <Link className="button" onClick={this.courseDelete} to="#">Delete Course</Link>
-                            </span>
-                            <Link className="button button-secondary" to="/">Return to List</Link></div>
+                            {authUserDisplay}
+                            <Link className="button button-secondary" to="/">Return to List</Link>
+                        </div>
                     </div>
                 </div>
                 <div className="bounds course--detail">
@@ -63,14 +78,14 @@ export default class CourseDetail extends Component {
                             <p>{courseData.description}</p>
                         </div>
                     </div>
-                    <div class="grid-25 grid-right">
-                        <div class="course--stats">
-                            <ul class="course--stats--list">
-                                <li class="course--stats--list--item">
+                    <div className="grid-25 grid-right">
+                        <div className="course--stats">
+                            <ul className="course--stats--list">
+                                <li className="course--stats--list--item">
                                     <h4>Estimated Time</h4>
                                     <h3>{courseData.estimatedTime}</h3>
                                 </li>
-                                <li class="course--stats--list--item">
+                                <li className="course--stats--list--item">
                                     <h4>Materials Needed</h4>
                                     <ul>
                                         {materials}

@@ -8,11 +8,6 @@ export default class UpdateCourse extends Component {
         estimatedTime: "",
         materialsNeeded: "",
         errors: []
-        // courseData: {
-        //     title: "",
-        //     user: {},
-        //     materialsNeeded: ""
-        // }
     };
 
     componentDidMount() {
@@ -31,9 +26,16 @@ export default class UpdateCourse extends Component {
     }
 
     courseUpdate = e => {
+        const {context} = this.props;
         e.preventDefault();
         fetch(`//localhost:5000/api/courses/${this.props.match.params.id}`, {
-            method: 'PUT', body: JSON.stringify(this.state), headers: new Headers({"Content-Type": "application/json", "Authorization": "Basic am9lQHNtaXRoLmNvbTpqb2VwYXNzd29yZA=="})})
+            method: 'PUT', 
+            body: JSON.stringify(this.state), 
+            headers: new Headers({
+                "Content-Type": "application/json", 
+                "Authorization": "Basic " + btoa(context.authenticatedUser.emailAddress + ":" + context.authenticatedUser.password)
+            })
+        })
             .then(() => this.props.history.push(`/courses/${this.state.id}`))
             .then(() => window.alert("Course updated!"))
     }
@@ -62,12 +64,12 @@ export default class UpdateCourse extends Component {
                             <div className="course--header">
                                 <h4 className="course--label">Course</h4>
                                 <div>  
-                                    <input id="title" name="title" type="text" class="input-title course--title--input" placeholder="Course title..." onChange={this.changeHandler} defaultValue={stateData.title}></input>
+                                    <input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..." onChange={this.changeHandler} defaultValue={stateData.title}></input>
                                     <p>By {stateData.user.firstName} {stateData.user.lastName}</p>
                                 </div>
                                 <div className="course--description">
                                     <div>
-                                        <textarea id="description" name="description" class="" placeholder="Course description" onChange={this.changeHandler} defaultValue={stateData.description}>
+                                        <textarea id="description" name="description" className="" placeholder="Course description" onChange={this.changeHandler} defaultValue={stateData.description}>
                                         </textarea>
                                     </div>
                                 </div>
@@ -79,13 +81,13 @@ export default class UpdateCourse extends Component {
                                     <li className="course--stats--list--item">
                                         <h4>Estimated Time</h4>
                                         <div>
-                                            <input id="estimatedTime" name="estimatedTime" type="text" class="course--time--input" placeholder="Hours" onChange={this.changeHandler} defaultValue={stateData.estimatedTime}></input>
+                                            <input id="estimatedTime" name="estimatedTime" type="text" className="course--time--input" placeholder="Hours" onChange={this.changeHandler} defaultValue={stateData.estimatedTime}></input>
                                         </div>
                                     </li>
                                     <li className="course--stats--list--item">
                                         <h4>Materials Needed</h4>
                                         <div>
-                                            <textarea id="materialsNeeded" name="materialsNeeded" class="" placeholder="List materials..." onChange={this.changeHandler} defaultValue={stateData.materialsNeeded}></textarea>
+                                            <textarea id="materialsNeeded" name="materialsNeeded" className="" placeholder="List materials..." onChange={this.changeHandler} defaultValue={stateData.materialsNeeded}></textarea>
                                         </div>
                                     </li>
                                 </ul>

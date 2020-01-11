@@ -3,11 +3,6 @@ import React, {Component} from 'react';
 export default class CreateCourse extends Component {
     state = {
         title: "",
-        user: {
-            id: 1,
-            firstName: "Joe",
-            lastName: "Smith"
-        },
         userId: 1,
         description: "",
         estimatedTime: "",
@@ -16,11 +11,18 @@ export default class CreateCourse extends Component {
     }
 
     courseCreate = e => {
+        const {context} = this.props;
         e.preventDefault();
         fetch("//localhost:5000/api/courses/", {
-            method: 'POST', body: JSON.stringify(this.state), headers: new Headers({"Content-Type": "application/json", "Authorization": "Basic am9lQHNtaXRoLmNvbTpqb2VwYXNzd29yZA=="})})
+            method: 'POST', 
+            body: JSON.stringify(this.state), 
+            headers: new Headers({
+                "Content-Type": "application/json", 
+                "Authorization": "Basic " + btoa(context.authenticatedUser.emailAddress + ":" + context.authenticatedUser.password)
+            })
+        })
             .then(async res => {
-                if (res.ok == true) {
+                if (res.ok === true) {
                     this.props.history.push("/");
                     window.alert("Course created!");
                 } else {
@@ -43,6 +45,7 @@ export default class CreateCourse extends Component {
     }
 
     render() {
+        const {context} = this.props;
         let errors = [];
         let errorContainer;
 
@@ -79,8 +82,7 @@ export default class CreateCourse extends Component {
                                 <div>
                                     <input id="title" name="title" type="text" className="input-title course--title--input" placeholder="Course title..." onChange={this.changeHandler}></input>
                                 </div>
-                                {/* Fill in currently logged in user name? */}
-                                <p>By Xxxx Xxxx</p>
+                                <p>By {context.authenticatedUser.firstName} {context.authenticatedUser.lastName}</p>
                             </div>
                             <div className="course--description">
                                 <div>
@@ -106,9 +108,9 @@ export default class CreateCourse extends Component {
                                 </ul>
                             </div>
                         </div>
-                        <div class="grid-100 pad-bottom">
-                            <button class="button" type="submit">Create Course</button>
-                            <button class="button button-secondary" onClick={this.cancelButton}>Cancel</button>
+                        <div className="grid-100 pad-bottom">
+                            <button className="button" type="submit">Create Course</button>
+                            <button className="button button-secondary" onClick={this.cancelButton}>Cancel</button>
                         </div>
                     </form>
                 </div>
