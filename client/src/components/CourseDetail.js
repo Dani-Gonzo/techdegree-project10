@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 
 export default class CourseDetail extends Component {
     state = {
@@ -37,16 +38,7 @@ export default class CourseDetail extends Component {
     render() {
         const {context} = this.props;
         const courseData = this.state.courseData;
-        let materials = null;
         let authUserDisplay;
-        
-        if (courseData.materialsNeeded != null) {
-            materials = courseData.materialsNeeded.split("\n").map(material => {
-                return (
-                    <li>{material.replace("*", "")}</li>
-                )
-            });
-        }
 
         if (context.authenticatedUser != null && context.authenticatedUser.id === courseData.user.id) {
             authUserDisplay = <span>
@@ -75,7 +67,7 @@ export default class CourseDetail extends Component {
                             <p>By {courseData.user.firstName} {courseData.user.lastName}</p>
                         </div>
                         <div className="course--description">
-                            <p>{courseData.description}</p>
+                            <ReactMarkdown source={courseData.description} />
                         </div>
                     </div>
                     <div className="grid-25 grid-right">
@@ -88,7 +80,7 @@ export default class CourseDetail extends Component {
                                 <li className="course--stats--list--item">
                                     <h4>Materials Needed</h4>
                                     <ul>
-                                        {materials}
+                                        <ReactMarkdown source={courseData.materialsNeeded} />
                                     </ul>
                                 </li>
                             </ul>

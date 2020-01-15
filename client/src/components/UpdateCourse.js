@@ -36,8 +36,16 @@ export default class UpdateCourse extends Component {
                 "Authorization": "Basic " + btoa(context.authenticatedUser.emailAddress + ":" + context.authenticatedUser.password)
             })
         })
-            .then(() => this.props.history.push(`/courses/${this.state.id}`))
-            .then(() => window.alert("Course updated!"))
+            .then(async res => {
+                if (res.ok === true) {
+                    this.props.history.push(`/courses/${this.state.id}`);
+                    window.alert("Course updated!");
+                } else {
+                    const errorData = await res.json();
+                    this.setState({errors: errorData.message});
+                }
+            })
+
     }
 
     changeHandler = e => {
@@ -54,11 +62,35 @@ export default class UpdateCourse extends Component {
 
     render() {
         const stateData = this.state;
+        let errors = [];
+        let errorContainer;
+
+        if (this.state.errors.length > 0) {
+            errors = this.state.errors.map(error => {
+                return (
+                    <li>{error}</li>
+                )
+            });
+        }
+
+        if (this.state.errors.length > 0) {
+            errorContainer = <div>
+                                <h2 className="validation--errors--label">Validation errors</h2>
+                                <div className="validation-errors">
+                                    <ul>
+                                        {errors}
+                                    </ul>
+                                </div>
+                            </div>
+        } else {
+            errorContainer = null;
+        }
 
         return(
             <div className="bounds course--detail">
                 <h1>Update Course</h1>
                 <div>
+                    {errorContainer}
                     <form onSubmit={this.courseUpdate}>
                         <div className="grid-66">
                             <div className="course--header">

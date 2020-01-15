@@ -30,10 +30,11 @@ class App extends Component {
 
   render() {
     return (
+      
       <BrowserRouter>
         <div id="root">
             <Header />
-            
+
             <Switch>
               <Route exact path="/" component={Courses} />
               <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
