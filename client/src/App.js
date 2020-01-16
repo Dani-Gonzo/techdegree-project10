@@ -10,6 +10,9 @@ import UserSignIn from './components/UserSignIn.js';
 import UserSignOut from './components/UserSignOut.js';
 import Header from './components/Header.js';
 import PrivateRoute from './PrivateRoute.js';
+import Forbidden from './components/Forbidden';
+import UnhandledError from './components/UnhandledError';
+import NotFound from './components/NotFound';
 // import './App.css';
 
 function withContext(Component) {
@@ -43,7 +46,10 @@ class App extends Component {
               <Route path="/signup" component={UserSignUp} />
               <Route path="/signin" component={UserSignIn} />
               <Route path="/signout" component={UserSignOut} />
-
+              <Route path="/forbidden" component={Forbidden} />
+              <Route path="/error" component={UnhandledError} />
+              <Route path="/notfound" component={NotFound} />
+              <Route component={NotFound} />
             </Switch>
         </div>
       </BrowserRouter>

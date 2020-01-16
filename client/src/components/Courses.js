@@ -8,11 +8,21 @@ export default class Courses extends Component {
 
     componentDidMount() {
         fetch('//localhost:5000/api/courses')
-          .then(res => res.json())
-          .then(resData => {
-            this.setState({
-              courseData: resData
+            .then(res => {
+                if (res.status === 500) {
+                    this.props.history.push('/error');
+                } else {
+                    return res.json();
+                }
             })
+          .then(resData => {
+            if (resData.status === 500) {
+                this.props.history.push('/error');
+            } else {
+                this.setState({
+                    courseData: resData
+                })
+            }
         })
     }
 

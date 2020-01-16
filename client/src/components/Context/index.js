@@ -46,6 +46,8 @@ export class Provider extends Component {
             return res.json();
         } else if (res.status === 401) {
             return null;
+        } else if (res.status === 500) {
+            this.props.history.push('/error');
         }
     }
 

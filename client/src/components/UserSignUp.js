@@ -28,6 +28,8 @@ export default class UserSignUp extends Component {
             if (res.ok === true) {
                 this.props.history.push("/");
                 window.alert("User account created!");
+            } else if (res.status === 500) {
+                this.props.history.push('/error');
             } else {
                 const errorData = await res.json();
                 this.setState({errors: errorData.message});
