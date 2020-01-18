@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 
 // UI and logic for creating a new course
 export default class CreateCourse extends Component {
+    
     state = {
         // Expected structure of state
         // title: "",
-        // userId: 1, // default placeholder
+        // userId required to submit new course information
+        userId: this.props.context.authenticatedUser.id,
         // description: "",
         // estimatedTime: "",
         // materialsNeeded: "",

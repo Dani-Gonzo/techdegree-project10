@@ -4,27 +4,35 @@
 A full app built for users to administer a school database containing info about courses. Users can retrieve a list of courses and view details about each course, as well as add, update and delete courses.
 
 ## Getting Started
-Run the following command from the root of the folder.
+Run the following commands from the root of the api folder.
 
-First, install the project's dependencies using `npm`.
-
+First, install the dependencies using `npm`.
 ```
 npm install
 ```
 
-Navigate to the project's api folder and seed the SQLite database.
-
+Seed the SQLite database.
 ```
 npm run seed
 ```
 
-And lastly, start the api application.
-
+Start the api application.
 ```
 npm start
 ```
 
-Open a second terminal and navigate to the project's client folder. Run `npm start`.
+Run these commands from the root of the client folder.
+
+Open a second terminal, navigate to the client folder and install the dependencies.
+```
+npm install
+```
+
+Finally, start the client application.
+```
+npm start
+```
+If the server does not automatically open a browser, open a new tab in your browser and navigate to [http://localhost:3000/](http://localhost:3000/).
 
 
 To test the Express server, browse to the URL [http://localhost:5000/](http://localhost:5000/).
