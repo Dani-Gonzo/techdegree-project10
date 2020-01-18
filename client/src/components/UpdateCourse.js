@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 
+// UI and logic for updating course information
 export default class UpdateCourse extends Component {
+    // Render requires intitialization of user and errors
     state = {
-        title: "",
-        user: {},
-        description: "",
-        estimatedTime: "",
-        materialsNeeded: "",
+        // Expected structure of state
+        // title: "",
+        user: 1, // default placeholder
+        // description: "",
+        // estimatedTime: "",
+        // materialsNeeded: "",
         errors: []
     };
 
@@ -21,6 +24,7 @@ export default class UpdateCourse extends Component {
             }
           })
           .then(resData => {
+              // If nothing is returned from previous then, do not continue
             if (resData === undefined) {
                 return;
             } else if (resData === null) {
@@ -28,6 +32,7 @@ export default class UpdateCourse extends Component {
             } else if (context.authenticatedUser.id !== resData.user.id) {
                 this.props.history.push('/forbidden');
             } else {
+                // Fill form fields with existing information by setting state for the course
                 this.setState({
                     id: resData.id,
                     title: resData.title,
@@ -40,6 +45,7 @@ export default class UpdateCourse extends Component {
         })
     }
 
+    // Verify logged in user has correct authorization before updating course
     courseUpdate = e => {
         const {context} = this.props;
         e.preventDefault();
@@ -52,11 +58,14 @@ export default class UpdateCourse extends Component {
             })
         })
             .then(async res => {
+                // If res ok, redirect to course detail page
                 if (res.ok === true) {
                     this.props.history.push(`/courses/${this.state.id}`);
                     window.alert("Course updated!");
+                // If 500 status, redirect to error path to display user friendly message
                 } else if (res.status === 500) {
                     this.props.history.push('/error');
+                // Otherwise, set the errors returned from the api into the errors array in state
                 } else {
                     const errorData = await res.json();
                     this.setState({errors: errorData.message});
@@ -65,12 +74,14 @@ export default class UpdateCourse extends Component {
 
     }
 
+    // Called each time a field in the form has a change and sets the new appropriate state
     changeHandler = e => {
         let name = e.target.name;
         let value = e.target.value;
         this.setState({[name]: value})
     }
 
+    // Cancel course update, redirect the user to the course detail page
     cancelButton = e => {
         e.preventDefault();
         let path = `/courses/${this.state.id}`;
@@ -82,6 +93,7 @@ export default class UpdateCourse extends Component {
         let errors = [];
         let errorContainer;
 
+        // If there are errors, create a list item for each one
         if (this.state.errors.length > 0) {
             errors = this.state.errors.map(error => {
                 return (
@@ -90,6 +102,7 @@ export default class UpdateCourse extends Component {
             });
         }
 
+        // If there are errors, display them
         if (this.state.errors.length > 0) {
             errorContainer = <div>
                                 <h2 className="validation--errors--label">Validation errors</h2>

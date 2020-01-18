@@ -2,18 +2,23 @@ import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 
+// Call course api upon component mount and render details about a specific course
 export default class CourseDetail extends Component {
     state = {
+        // Expected structure of state
         courseData: {
-            title: "",
+            // title: "",
+            // Render requires initialization of user
             user: {},
-            materialsNeeded: ""
+            // materialsNeeded: ""
         }
     }
 
     componentDidMount() {
+        // Call courses api using the id of the desired course to grab details to display
         fetch(`//localhost:5000/api/courses/${this.props.match.params.id}`)
           .then(res => {
+            // Handle server error, otherwise parse response
             if (res.status === 500) {
                 this.props.history.push('/error');
             } else {
@@ -21,6 +26,8 @@ export default class CourseDetail extends Component {
             }
           })
           .then(resData => {
+            // If course does not exist, route to /notfound to display friendly not found message
+            // Otherwise, set the state to the course details
             if (resData === null) {
                 this.props.history.push('/notfound');
             } else {
@@ -31,6 +38,7 @@ export default class CourseDetail extends Component {
         })
     }
 
+    // Verify logged in user has permissions before deleting course
     courseDelete(id) {
         const {context} = this.props;
         fetch(`//localhost:5000/api/courses/${id}`, {
@@ -39,9 +47,17 @@ export default class CourseDetail extends Component {
                 "Authorization": "Basic " + btoa(context.authenticatedUser.emailAddress + ":" + context.authenticatedUser.password)
             })
         })
-            .then(() => {   
-                this.props.history.push('/');
-                window.alert("Delete successful!");
+            .then(res => {
+                // If ok, show alert and redirect user to main courses page
+                if (res.ok === true) {
+                    this.props.history.push('/');
+                    window.alert("Delete successful!");
+                // If internal server error, redirect to /error path to show friendly message
+                } else if (res.status === 500) {
+                    this.props.history.push('/error');
+                } else {
+                    window.alert("Sorry, could not delete the course!");
+                }
             })
     }
 
@@ -56,6 +72,7 @@ export default class CourseDetail extends Component {
         let estimatedTime;
         let materialsNeeded;
 
+        // If courseData exists, set variables to matching state item
         if (courseData !== null) {
             title = courseData.title;
             userFirst = courseData.user.firstName;
@@ -63,11 +80,13 @@ export default class CourseDetail extends Component {
             description = courseData.description;
             estimatedTime = courseData.estimatedTime;
             materialsNeeded = courseData.materialsNeeded;
+            // Verify logged in user id matches course owner id and display course control buttons if they match
             if (context.authenticatedUser != null && context.authenticatedUser.id === courseData.user.id) {
                 authUserDisplay = <span>
                                 <Link className="button" to={`/courses/${courseData.id}/update`}>Update Course</Link>
                                 <Link className="button" onClick={() => this.courseDelete(this.props.match.params.id)} to="#">Delete Course</Link>
                             </span>
+            // If IDs do not match, do not display course control buttons
             } else {
                 authUserDisplay = null;
             }

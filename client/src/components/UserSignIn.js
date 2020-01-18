@@ -2,20 +2,22 @@ import React, {Component} from 'react';
 import {Consumer} from './Context'; 
 import { Link } from 'react-router-dom';
 
+// UI and logic for user sign in
 export default class UserSignIn extends Component {
-
     state = {
         emailAddress: "",
         password: "",
         errors: []
     }
 
+    // Called each time a field in the form has a change and sets the new appropriate state
     changeHandler = e => {
         let name = e.target.name;
         let value = e.target.value;
         this.setState({[name]: value})
     }
 
+    // Cancel sign in, redirect the user to the main courses page
     cancelButton = e => {
         e.preventDefault();
         let path = "/";
@@ -26,17 +28,22 @@ export default class UserSignIn extends Component {
         return (
             <Consumer> 
             { context => {
+                // Submit handler in render for context purposes
                 const handleSubmit = e => {
                     e.preventDefault();
+                    // If user was attempting to reach a certain page, redirect them upon sign-in. Otherwise, go to course list
                     const {from} = this.props.location.state || {from: {pathname: '/'}};
 
+                    // Call sign in method from context
                     context.actions.signIn(this.state.emailAddress, this.state.password)
                         .then(user => {
+                            // If user is null, set error state message
                             if (user === null) {
                                 this.setState(() => {
                                     return {errors: ["Sign-in was unsuccessful"]};
                                 });
                             } 
+                            // Otherwise redirect them to the previously desired page (accessed from PrivateRoute component)
                             else {
                                 this.props.history.push(from);
                             }
@@ -45,7 +52,7 @@ export default class UserSignIn extends Component {
                             console.log(err);
                             this.props.history.push("/error");
                         })
-                    }
+                }
                     return (
                         <div className="bounds">
                             <div className="grid-33 centered signin">

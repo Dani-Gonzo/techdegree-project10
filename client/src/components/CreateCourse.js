@@ -1,15 +1,20 @@
 import React, {Component} from 'react';
 
+// UI and logic for creating a new course
 export default class CreateCourse extends Component {
     state = {
-        title: "",
-        userId: 1,
-        description: "",
-        estimatedTime: "",
-        materialsNeeded: "",
+        // Expected structure of state
+        // title: "",
+        // userId: 1, // default placeholder
+        // description: "",
+        // estimatedTime: "",
+        // materialsNeeded: "",
+        
+        // Errors array must be initialized
         errors: []
     }
 
+    // Verify user is logged in, then create course and apply their id as the owner
     courseCreate = e => {
         const {context} = this.props;
         e.preventDefault();
@@ -22,11 +27,14 @@ export default class CreateCourse extends Component {
             })
         })
             .then(async res => {
+                // Upon successful course creation, redirect the user to the main courses page
                 if (res.ok === true) {
                     this.props.history.push("/");
                     window.alert("Course created!");
+                // If a 500 exists, redirect to display user friendly error message
                 } else if (res.status === 500) {
                     this.props.history.push('/error');
+                // Otherwise, set the errors returned from the api into the errors array in state
                 } else {
                     const errorData = await res.json();
                     this.setState({errors: errorData.message})
@@ -34,12 +42,14 @@ export default class CreateCourse extends Component {
             })
     }
 
+    // Called each time a field in the form has a change and sets the new appropriate state
     changeHandler = e => {
         let name = e.target.name;
         let value = e.target.value;
         this.setState({[name]: value})
     }
 
+    // Cancel course creation, redirect the user to the main courses page
     cancelButton = e => {
         e.preventDefault();
         let path = "/";
@@ -51,6 +61,7 @@ export default class CreateCourse extends Component {
         let errors = [];
         let errorContainer;
 
+        // If there are errors, create a list item for each one
         if (this.state.errors.length > 0) {
             errors = this.state.errors.map(error => {
                 return (
@@ -59,6 +70,7 @@ export default class CreateCourse extends Component {
             });
         }
 
+        // If there are errors, display them
         if (this.state.errors.length > 0) {
             errorContainer = <div>
                                 <h2 className="validation--errors--label">Validation errors</h2>

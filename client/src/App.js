@@ -13,8 +13,8 @@ import PrivateRoute from './PrivateRoute.js';
 import Forbidden from './components/Forbidden';
 import UnhandledError from './components/UnhandledError';
 import NotFound from './components/NotFound';
-// import './App.css';
 
+// Wraps components in a Consumer so they can more easily access what they need from the Provider
 function withContext(Component) {
   return function ContextComponent(props) {
     return (
@@ -25,6 +25,7 @@ function withContext(Component) {
   }
 }
 
+// Components with Context
 const CreateCourseWithContext = withContext(CreateCourse);
 const UpdateCourseWithContext = withContext(UpdateCourse);
 const CourseDetailWithContext = withContext(CourseDetail);
@@ -33,7 +34,6 @@ class App extends Component {
 
   render() {
     return (
-      
       <BrowserRouter>
         <div id="root">
             <Header />
