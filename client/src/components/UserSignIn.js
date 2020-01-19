@@ -53,11 +53,31 @@ export default class UserSignIn extends Component {
                             this.props.history.push("/error");
                         })
                 }
+
+                let errorContainer;
+
+                // If there is an error (ie sign in was unsuccessful), display it
+                if (this.state.errors.length > 0) {
+                    errorContainer = <div>
+                                        <h2 className="validation--errors--label">Validation errors</h2>
+                                        <div className="validation-errors">
+                                            <ul>
+                                                <li>
+                                                    {this.state.errors}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                } else {
+                    errorContainer = null;
+                }
+
                     return (
                         <div className="bounds">
                             <div className="grid-33 centered signin">
                                 <h1>Sign In</h1>
                                 <div>
+                                    {errorContainer}
                                     <form onSubmit={handleSubmit}>
                                         <div>
                                             <input id="emailAddress" name="emailAddress" type="text" className="" placeholder="Email Address" onChange={this.changeHandler}></input>

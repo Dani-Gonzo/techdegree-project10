@@ -63,9 +63,9 @@ export default class UserSignUp extends Component {
 
         // If there are errors, create a list item for each one
         if (this.state.errors.length > 0) {
-            errors = this.state.errors.map(error => {
+            errors = this.state.errors.map((error, index) => {
                 return (
-                    <li>{error}</li>
+                    <li key={index}>{error}</li>
                 )
             });
         }

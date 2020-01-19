@@ -32,7 +32,7 @@ export default class Courses extends Component {
         // Go through each course in courseData array and create a display Link for it
         const titles = this.state.courseData.map(course => {
             return (
-                <div className="grid-33"><Link className="course--module course--link" to={`/courses/${course.id}`}>
+                <div className="grid-33" key={course.id}><Link className="course--module course--link" to={`/courses/${course.id}`}>
                     <h4 className="course--label">Course</h4>
                     <h3 className="course--title">{course.title}</h3>
                 </Link></div>
