@@ -4,12 +4,11 @@ import React, {Component} from 'react';
 export default class UpdateCourse extends Component {
     // Render requires intitialization of user and errors
     state = {
-        // Expected structure of state
-        // title: "",
-        user: 1, // default placeholder
-        // description: "",
-        // estimatedTime: "",
-        // materialsNeeded: "",
+        title: "",
+        user: 2, // default placeholder
+        description: "",
+        estimatedTime: "",
+        materialsNeeded: "",
         errors: []
     };
 

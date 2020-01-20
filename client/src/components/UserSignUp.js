@@ -30,6 +30,8 @@ export default class UserSignUp extends Component {
         .then(async res => {
             // If sign up is successful, redirect user to main courses route
             if (res.ok === true) {
+                const {context} = this.props;
+                context.actions.signIn(this.state.emailAddress, this.state.password);
                 this.props.history.push("/");
                 window.alert("User account created!");
             // If 500 status, redirect to error path to display friendly error message
